@@ -11,3 +11,8 @@ lsp_zero.setup_servers({
     'pylsp',
     'dartls',
 })
+
+local lspconfig = require('lspconfig')
+lspconfig.dartls.setup({
+    cmd = { 'fvm', 'dart', 'language-server', '--protocol=lsp' }
+})
