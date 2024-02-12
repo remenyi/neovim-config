@@ -65,5 +65,6 @@ require("lazy").setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
     { 'linrongbin16/lsp-progress.nvim' },
-    { 'akinsho/toggleterm.nvim', version = "*", config = true }
+    { 'akinsho/toggleterm.nvim', version = "*", config = true },
+    { 'tpope/vim-fugitive' }
 })
