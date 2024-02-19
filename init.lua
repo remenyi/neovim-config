@@ -58,6 +58,20 @@ require("lazy").setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
     { 'linrongbin16/lsp-progress.nvim' },
+    { 'neovim/nvim-lspconfig' },
+    { 'hrsh7th/nvim-cmp' },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'L3MON4D3/LuaSnip' },
+    { 'saadparwaiz1/cmp_luasnip' },
     { 'akinsho/toggleterm.nvim', version = "*", config = true },
+    {
+        'akinsho/flutter-tools.nvim',
+        lazy = false,
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'stevearc/dressing.nvim', -- optional for vim.ui.select
+        },
+        config = true,
+    },
     { 'tpope/vim-fugitive' }
 })
