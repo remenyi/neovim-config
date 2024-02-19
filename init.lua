@@ -73,5 +73,15 @@ require("lazy").setup({
         },
         config = true,
     },
-    { 'tpope/vim-fugitive' }
+    { 'tpope/vim-fugitive' },
+    {
+        'nvimdev/dashboard-nvim',
+        event = 'VimEnter',
+        config = function()
+            require('dashboard').setup { }
+        end,
+        dependencies = { {'nvim-tree/nvim-web-devicons'}}
+    },
+    { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
 })
