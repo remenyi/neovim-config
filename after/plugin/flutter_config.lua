@@ -11,3 +11,4 @@ flutter_tools.setup {
         },
     },
 }
+

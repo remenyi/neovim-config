@@ -17,6 +17,8 @@ vim.o.incsearch = true
 
 vim.o.updatetime = 50
 
+vim.o.exrc = true
+
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = { "*.html" },
     command = "0r ~/.config/nvim/templates/template.html",
@@ -63,7 +65,7 @@ require("lazy").setup({
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'L3MON4D3/LuaSnip' },
     { 'saadparwaiz1/cmp_luasnip' },
-    { 'akinsho/toggleterm.nvim', version = "*", config = true },
+    { 'akinsho/toggleterm.nvim',       version = "*", config = true },
     {
         'akinsho/flutter-tools.nvim',
         lazy = false,
@@ -78,9 +80,9 @@ require("lazy").setup({
         'nvimdev/dashboard-nvim',
         event = 'VimEnter',
         config = function()
-            require('dashboard').setup { }
+            require('dashboard').setup {}
         end,
-        dependencies = { {'nvim-tree/nvim-web-devicons'}}
+        dependencies = { { 'nvim-tree/nvim-web-devicons' } }
     },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
