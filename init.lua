@@ -19,6 +19,9 @@ vim.o.updatetime = 50
 
 vim.o.exrc = true
 
+vim.g.neovide_scale_factor = 0.8
+vim.g.neovide_transparency = 0.95
+
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = { "*.html" },
     command = "0r ~/.config/nvim/templates/template.html",
