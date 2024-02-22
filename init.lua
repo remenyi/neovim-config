@@ -22,6 +22,8 @@ vim.o.exrc = true
 vim.g.neovide_scale_factor = 0.8
 vim.g.neovide_transparency = 0.95
 
+vim.opt.termguicolors = true
+
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = { "*.html" },
     command = "0r ~/.config/nvim/templates/template.html",
@@ -90,4 +92,14 @@ require("lazy").setup({
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'lewis6991/gitsigns.nvim' },
+    {
+        'mrded/nvim-lsp-notify',
+        dependencies = { { 'rcarriga/nvim-notify' } },
+        config = function()
+            require('lsp-notify').setup({
+                notify = require('notify'),
+            })
+        end
+    },
+    { 'rcarriga/nvim-notify' },
 })
