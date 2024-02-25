@@ -103,4 +103,5 @@ require("lazy").setup({
     },
     { 'rcarriga/nvim-notify' },
     { 'github/copilot.vim' },
+    { 'ahmedkhalf/project.nvim' },
 })
