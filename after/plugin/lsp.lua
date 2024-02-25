@@ -25,12 +25,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local servers = { 'lua_ls' }
-for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup {
-        capabilities = capabilities,
-    }
-end
+-- all the supported servers
+local servers = {
+    "html",
+    "htmx",
+    "jsonls",
+    "lua_ls",
+    "pylsp",
+    "tailwindcss",
+}
 
 local luasnip = require('luasnip')
 
@@ -57,24 +60,16 @@ cmp.setup {
 }
 
 require("mason").setup()
-require("mason-lspconfig").setup {
-    ensure_installed = {
-        "html",
-        "htmx",
-        "jsonls",
-        "lua_ls",
-        "pylsp",
-        "tailwindcss",
-    },
-}
+require("mason-lspconfig").setup { ensure_installed = servers }
 
 require("mason-lspconfig").setup_handlers {
     function(server_name)
-        require("lspconfig")[server_name].setup {
+        lspconfig[server_name].setup {
             capabilities = capabilities,
         }
     end,
 
+    -- custom setup for lua
     ["lua_ls"] = function()
         require("lspconfig").lua_ls.setup {
             settings = {
