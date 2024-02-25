@@ -22,6 +22,9 @@ vim.o.exrc = true
 vim.g.neovide_scale_factor = 0.8
 vim.g.neovide_transparency = 0.95
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.opt.termguicolors = true
 
 vim.api.nvim_create_autocmd("BufNewFile", {
@@ -104,4 +107,8 @@ require("lazy").setup({
     { 'rcarriga/nvim-notify' },
     { 'github/copilot.vim' },
     { 'ahmedkhalf/project.nvim' },
+    {
+        'nvim-tree/nvim-tree.lua',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+    },
 })
