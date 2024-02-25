@@ -41,6 +41,16 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*.dart" },
+    callback = function()
+        vim.o.shiftwidth = 2
+        vim.o.tabstop = 2
+        vim.o.softtabstop = 2
+    end,
+})
+
+
 vim.keymap.set("n", "gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>")
 
 
