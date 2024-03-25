@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     end,
 })
 
-vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     pattern = { "*.dart" },
     callback = function()
         vim.o.shiftwidth = 2
@@ -107,15 +107,15 @@ require("lazy").setup({
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'lewis6991/gitsigns.nvim' },
-    {
-        'mrded/nvim-lsp-notify',
-        dependencies = { { 'rcarriga/nvim-notify' } },
-        config = function()
-            require('lsp-notify').setup({
-                notify = require('notify'),
-            })
-        end
-    },
+    --    {
+    --        'mrded/nvim-lsp-notify',
+    --        dependencies = { { 'rcarriga/nvim-notify' } },
+    --       config = function()
+    --           require('lsp-notify').setup({
+    --               notify = require('notify'),
+    --           })
+    --       end
+    --   },
     { 'rcarriga/nvim-notify' },
     { 'github/copilot.vim' },
     { 'ahmedkhalf/project.nvim' },
@@ -124,4 +124,18 @@ require("lazy").setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
     { 'ThePrimeagen/git-worktree.nvim' },
+    {
+        "iabdelkareem/csharp.nvim",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "mfussenegger/nvim-dap",
+            "Tastyep/structlog.nvim",
+        },
+        config = function()
+            require("mason").setup()
+            require("csharp").setup()
+            vim.keymap.set("n", "<leader>dr", "<cmd>lua require('csharp').run_project()<CR>")
+            vim.keymap.set("n", "<leader>dg", "<cmd>lua require('csharp').go_to_definition()<CR>")
+        end
+    }
 })
