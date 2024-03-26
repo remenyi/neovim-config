@@ -28,12 +28,8 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- all the supported servers
 local servers = {
-    "html",
-    "htmx",
-    "jsonls",
     "lua_ls",
     "pylsp",
-    "tailwindcss",
 }
 
 local luasnip = require('luasnip')
