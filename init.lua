@@ -137,5 +137,20 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>dr", "<cmd>lua require('csharp').run_project()<CR>")
             vim.keymap.set("n", "<leader>dg", "<cmd>lua require('csharp').go_to_definition()<CR>")
         end
-    }
+    },
+    {
+        "nomnivore/ollama.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
+        keys = {
+            {
+                "<leader>oo",
+                ":<c-u>lua require('ollama').prompt()<cr>",
+                desc = "ollama prompt",
+                mode = { "n", "v" },
+            },
+        },
+    },
 })
