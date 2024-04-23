@@ -1,58 +1,62 @@
 vim.g.mapleader = " "
 
+vim.g.have_nerd_font = true
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+vim.o.clipboard = "unnamedplus"
+
+vim.o.showmode = false
+
+vim.o.mouse = "a"
+
+vim.o.breakindent = true
+
+vim.o.undofile = true
+
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+vim.opt.signcolumn = 'yes'
+
 vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
-
 vim.o.wrap = true
 
 vim.o.incsearch = true
 
-vim.o.updatetime = 50
+vim.o.updatetime = 250
 
 vim.o.exrc = true
 
-vim.g.neovide_scale_factor = 0.8
-vim.g.neovide_transparency = 0.95
+vim.o.scrolloff = 10
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+vim.o.hlsearch = true
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
-vim.opt.termguicolors = true
+vim.o.list = true
+-- somehow I can't change 'opt' to 'o'
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+vim.o.termguicolors = true
 
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = { "*.html" },
     command = "0r ~/.config/nvim/templates/template.html",
 })
 
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-    pattern = { "*.html" },
+vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function()
-        vim.o.shiftwidth = 2
-        vim.o.tabstop = 2
-        vim.o.softtabstop = 2
+        vim.highlight.on_yank()
     end,
 })
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-    pattern = { "*.dart" },
-    callback = function()
-        vim.o.shiftwidth = 2
-        vim.o.tabstop = 2
-        vim.o.softtabstop = 2
-    end,
-})
-
-
-vim.keymap.set("n", "gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>")
-
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 print(lazypath)
@@ -79,6 +83,7 @@ require("lazy").setup({
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
+    { 'tpope/vim-sleuth' },
     { 'linrongbin16/lsp-progress.nvim' },
     { 'neovim/nvim-lspconfig' },
     { 'hrsh7th/nvim-cmp' },
