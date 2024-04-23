@@ -2,9 +2,6 @@ vim.g.mapleader = " "
 
 vim.g.have_nerd_font = true
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 vim.o.clipboard = "unnamedplus"
 
 vim.o.showmode = false
@@ -124,10 +121,6 @@ require("lazy").setup({
     { 'rcarriga/nvim-notify' },
     { 'github/copilot.vim' },
     { 'ahmedkhalf/project.nvim' },
-    {
-        'nvim-tree/nvim-tree.lua',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-    },
     { 'ThePrimeagen/git-worktree.nvim' },
     {
         "iabdelkareem/csharp.nvim",
