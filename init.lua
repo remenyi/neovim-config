@@ -42,6 +42,9 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 vim.o.termguicolors = true
 
+vim.keymap.set("n", "<leader>j", "<cmd>cnext<CR>")
+vim.keymap.set("n", "<leader>k", "<cmd>cprev<CR>")
+
 vim.api.nvim_create_autocmd("BufNewFile", {
     pattern = { "*.html" },
     command = "0r ~/.config/nvim/templates/template.html",
