@@ -84,13 +84,12 @@ require("lazy").setup({
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
     { 'tpope/vim-sleuth' },
-    { 'linrongbin16/lsp-progress.nvim' },
     { 'neovim/nvim-lspconfig' },
     { 'hrsh7th/nvim-cmp' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'L3MON4D3/LuaSnip' },
     { 'saadparwaiz1/cmp_luasnip' },
-    { 'akinsho/toggleterm.nvim',       version = "*", config = true },
+    { 'akinsho/toggleterm.nvim', version = "*", config = true },
     {
         'akinsho/flutter-tools.nvim',
         lazy = false,
@@ -101,29 +100,11 @@ require("lazy").setup({
         config = true,
     },
     { 'tpope/vim-fugitive' },
-    {
-        'nvimdev/dashboard-nvim',
-        event = 'VimEnter',
-        config = function()
-            require('dashboard').setup {}
-        end,
-        dependencies = { { 'nvim-tree/nvim-web-devicons' } }
-    },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'lewis6991/gitsigns.nvim' },
-    --    {
-    --        'mrded/nvim-lsp-notify',
-    --        dependencies = { { 'rcarriga/nvim-notify' } },
-    --       config = function()
-    --           require('lsp-notify').setup({
-    --               notify = require('notify'),
-    --           })
-    --       end
-    --   },
     { 'rcarriga/nvim-notify' },
     { 'github/copilot.vim' },
-    { 'ahmedkhalf/project.nvim' },
     { 'ThePrimeagen/git-worktree.nvim' },
     {
         "iabdelkareem/csharp.nvim",
@@ -153,5 +134,12 @@ require("lazy").setup({
                 mode = { "n", "v" },
             },
         },
+    },
+    {
+        'goolord/alpha-nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            require 'alpha'.setup(require 'alpha.themes.startify'.config)
+        end
     },
 })
