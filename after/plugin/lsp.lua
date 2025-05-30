@@ -1,40 +1,65 @@
-local lspconfig = require('lspconfig')
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+local telescope_builtin = require("telescope.builtin")
 
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+vim.lsp.config('lua_ls', {
+    root_dir = function(bufnr, on_dir)
+        if vim.fn.bufname(bufnr):match('%.lua$') then
+            on_dir(vim.fn.getcwd())
+        end
+    end,
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                globals = { 'vim' },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    }
+})
 
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+vim.lsp.enable('lua_ls')
+
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostics" })
+vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next diagnostic" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
     callback = function(ev)
-        local opts = { buffer = ev.buf }
-        local builtin = require('telescope.builtin')
+        if not vim.api.nvim_buf_is_valid(ev.buf) then
+            return
+        end
 
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gr', builtin.lsp_references, opts)
-        vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format { async = true }
-        end, opts)
+        local mappings = {
+            { "n",          "gd",        vim.lsp.buf.definition,                             "[G]oto [D]efinition" },
+            { "n",          "K",         vim.lsp.buf.hover,                                  "Hover Info" },
+            { "n",          "gi",        vim.lsp.buf.implementation,                         "[G]oto [I]mplementation" },
+            { "n",          "<space>D",  vim.lsp.buf.type_definition,                        "Type [D]efinition" },
+            { "n",          "<space>rn", vim.lsp.buf.rename,                                 "[R]e[n]ame Symbol" },
+            { { "n", "v" }, "<space>ca", vim.lsp.buf.code_action,                            "[C]ode [A]ctions" },
+            { "n",          "gr",        telescope_builtin.lsp_references,                   "[G]oto [R]eferences" },
+            { "n",          "<leader>f", function() vim.lsp.buf.format { async = true } end, "[F]ormat Document" },
+        }
+
+        for _, map in ipairs(mappings) do
+            if vim.api.nvim_buf_is_valid(ev.buf) then
+                vim.keymap.set(map[1], map[2], map[3], { buffer = ev.buf, desc = map[4] })
+            end
+        end
     end,
 })
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
--- all the supported servers
-local servers = {
-    "lua_ls",
-    "pylsp",
-}
-
-local luasnip = require('luasnip')
-
-local cmp = require('cmp')
 cmp.setup {
     snippet = {
         expand = function(args)
@@ -42,40 +67,36 @@ cmp.setup {
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-        ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm {
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<CR>"] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         },
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
     }),
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-    },
-}
-
-require("mason").setup()
-require("mason-lspconfig").setup { ensure_installed = servers }
-
-require("mason-lspconfig").setup_handlers {
-    function(server_name)
-        lspconfig[server_name].setup {
-            capabilities = capabilities,
-        }
-    end,
-
-    -- custom setup for lua
-    ["lua_ls"] = function()
-        require("lspconfig").lua_ls.setup {
-            settings = {
-                Lua = {
-                    diagnostics = {
-                        globals = { "vim" },
-                    },
-                },
-            },
-        }
-    end,
+    sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+    }, {
+        { name = "buffer" },
+    }),
 }

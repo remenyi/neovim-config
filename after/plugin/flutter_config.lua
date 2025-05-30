@@ -5,9 +5,21 @@ flutter_tools.setup {
         border = "rounded",
     },
     fvm = true,
+    root_patterns = { "example/pubspec.yaml", "pubspec.yaml" },
     lsp = {
+        color = {
+            enabled = true,
+            virtual_text = true,
+        },
         settings = {
             lineLength = 120,
         },
+    },
+    dev_log = {
+        open_cmd = "bel sp",
+        focus_on_open = false,
+    },
+    debugger = {
+        enabled = false,
     },
 }
