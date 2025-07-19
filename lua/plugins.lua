@@ -15,11 +15,6 @@ return {
         end
     },
     { "tpope/vim-sleuth" },
-
-    { "hrsh7th/nvim-cmp" },
-    { "hrsh7th/cmp-nvim-lsp" },
-    { "L3MON4D3/LuaSnip" },
-    { "saadparwaiz1/cmp_luasnip" },
     {
         "folke/trouble.nvim",
         cmd = "Trouble",
@@ -99,6 +94,18 @@ return {
                     file_types = { "markdown", "Avante" },
                 },
                 ft = { "markdown", "Avante" },
+            },
+        },
+    },
+    {
+        'saghen/blink.cmp',
+        dependencies = { 'rafamadriz/friendly-snippets' },
+        version = '1.*',
+        opts = {
+            keymap = { preset = 'default' },
+
+            appearance = {
+                nerd_font_variant = 'mono'
             },
         },
     }
